@@ -1,0 +1,5 @@
+*.exe
+*.prof
+*.mprof
+*.trace
+*.out
