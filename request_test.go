@@ -83,21 +83,24 @@ func testSystem(td *TestData, t testing.TB) int {
 }
 
 func TestRequest(t *testing.T) {
-	log.SetOutput(os.Stderr)
-	td := TestData{
-		MaxWorker:           200,
-		MaxQueue:            200,
-		ReqInterval:         0,
-		ReqTimes:            50,
-		ReqPreloadLen:       5,
-		ReqPreloadLenFloat:  0,
-		ReqPreloadWait:      500 * time.Millisecond,
-		ReqPreloadWaitFloat: 1000 * time.Millisecond,
-		GOMAXPROCS:          runtime.GOMAXPROCS(0),
-	}
-	t.Logf("%s", td.Str())
-	blockat := testSystem(&td, t)
-	assert.Equal(t, blockat, td.ReqTimes)
+	t.Run("a simple test", func(t *testing.T) {
+		log.SetOutput(os.Stderr)
+		td := TestData{
+			MaxWorker:           200,
+			MaxQueue:            200,
+			ReqInterval:         0,
+			ReqTimes:            50,
+			ReqPreloadLen:       5,
+			ReqPreloadLenFloat:  0,
+			ReqPreloadWait:      500 * time.Millisecond,
+			ReqPreloadWaitFloat: 1000 * time.Millisecond,
+			GOMAXPROCS:          runtime.GOMAXPROCS(0),
+		}
+		t.Logf("%s", td.Str())
+		blockat := testSystem(&td, t)
+		assert.Equal(t, blockat, td.ReqTimes)
+	})
+
 }
 
 func TestBlock(t *testing.T) {
@@ -113,16 +116,18 @@ func TestBlock(t *testing.T) {
 		ReqPreloadWaitFloat: 0 * time.Millisecond,
 		GOMAXPROCS:          runtime.GOMAXPROCS(0),
 	}
+
 	// incr 50 preload process time
 	for i := 0; i < 5; i++ {
 		td.ReqPreloadWait += 50 * time.Millisecond
-		t.Logf("%s", td.Str())
-		blockat := testSystem(&td, t)
-		if blockat == td.ReqTimes {
-			t.Log("not block")
-		} else {
-			t.Logf("block at %d th request", blockat)
-			break
-		}
+		t.Run(fmt.Sprintf("testing wail time increased to %v", td.ReqPreloadWait), func(st *testing.T) {
+			st.Logf("%s", td.Str())
+			blockat := testSystem(&td, st)
+			if blockat == td.ReqTimes {
+				st.Log("not block")
+			} else {
+				st.Logf("block at %d th request", blockat)
+			}
+		})
 	}
 }

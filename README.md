@@ -5,9 +5,13 @@
 
 ### 如何使用
 
-    go test -v
+    go get -d github.com/bigpigeon/WorkerPoolDemo
 	
+	cd $GOPATH/src/github.com/bigpigeon/WorkerPoolDemo
+
+    go test -v -race
 	
+
 然后你将看到一下信息
 ```
 2017/01/24 12:00:24 19 th request 3 th task finish in 504.4885ms
