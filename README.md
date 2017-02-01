@@ -1,7 +1,7 @@
 ### 引言
 
 
-这个demo是根据**使用Go语言每分钟处理1百万请求**[译文](https://github.com/itfanr/articles-about-golang/blob/master/2016-10/1.handling-1-million-requests-per-minute-with-golang.md)[原文](http://marcio.io/2015/07/handling-1-million-requests-per-minute-with-golang/)
+这个demo是根据**使用Go语言每分钟处理1百万请求**[译文](https://github.com/itfanr/articles-about-golang/blob/master/2016-10/1.handling-1-million-requests-per-minute-with-golang.md) | [原文](http://marcio.io/2015/07/handling-1-million-requests-per-minute-with-golang/)
 中的代码写的，目的是为了测试线程池的瓶颈和缺陷
 
 
