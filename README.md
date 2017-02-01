@@ -1,6 +1,22 @@
 ### 引言
 
-这个Demo的目的是为了测试线程池的瓶颈和缺陷
+
+这个demo是根据**使用Go语言每分钟处理1百万请求**[译文](https://github.com/itfanr/articles-about-golang/blob/master/2016-10/1.handling-1-million-requests-per-minute-with-golang.md)[原文](http://marcio.io/2015/07/handling-1-million-requests-per-minute-with-golang/)
+中的代码写的，目的是为了测试线程池的瓶颈和缺陷
+
+
+而且我发现代码中以下部分会导致创建过多的gorouter,所以把它从go func中提到外面去,通过增大queue的方法来缓存任务
+
+```
+go func(job Job) {
+    // try to obtain a worker job channel that is available.
+    // this will block until a worker is idle
+        jobChannel := <-d.WorkerPool
+
+    // dispatch the job to the worker job channel
+    jobChannel <- job
+}(job)
+```
 
 
 ### 如何使用
